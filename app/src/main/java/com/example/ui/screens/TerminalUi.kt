@@ -64,9 +64,9 @@ fun MainTerminalContainer(
     var timeString by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {
         while (true) {
-            val sdf = SimpleDateFormat("HH:mm:ss UTC", Locale.US)
+            val sdf = SimpleDateFormat("HH:mm:ss", Locale.US)
             sdf.timeZone = TimeZone.getTimeZone("UTC")
-            timeString = sdf.format(Date())
+            timeString = "${sdf.format(Date())} UTC"
             kotlinx.coroutines.delay(1000)
         }
     }
