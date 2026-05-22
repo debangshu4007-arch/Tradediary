@@ -25,6 +25,10 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
         repository = TradeRepository(tradeDao)
         
         allTrades = repository.allTrades
+            .catch { t ->
+                android.util.Log.e("TradeViewModel", "Error streaming trades log", t)
+                emit(emptyList())
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
@@ -32,6 +36,10 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
             )
             
         allDailyAnalyses = repository.allDailyAnalyses
+            .catch { t ->
+                android.util.Log.e("TradeViewModel", "Error streaming daily analyses", t)
+                emit(emptyList())
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
@@ -54,27 +62,35 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
         afterChartUri: String?
     ) {
         viewModelScope.launch {
-            val trade = TradeEntity(
-                entryPrice = entryPrice,
-                exitPrice = exitPrice,
-                stopLoss = stopLoss,
-                quantity = quantity,
-                setupLogic = setupLogic,
-                tradeThesis = tradeThesis,
-                mistakeTag = mistakeTag,
-                emotionBefore = emotionBefore,
-                emotionAfter = emotionAfter,
-                lessonsLearned = lessonsLearned,
-                beforeChartUri = beforeChartUri,
-                afterChartUri = afterChartUri
-            )
-            repository.insertTrade(trade)
+            try {
+                val trade = TradeEntity(
+                    entryPrice = entryPrice,
+                    exitPrice = exitPrice,
+                    stopLoss = stopLoss,
+                    quantity = quantity,
+                    setupLogic = setupLogic,
+                    tradeThesis = tradeThesis,
+                    mistakeTag = mistakeTag,
+                    emotionBefore = emotionBefore,
+                    emotionAfter = emotionAfter,
+                    lessonsLearned = lessonsLearned,
+                    beforeChartUri = beforeChartUri,
+                    afterChartUri = afterChartUri
+                )
+                repository.insertTrade(trade)
+            } catch (t: Throwable) {
+                android.util.Log.e("TradeViewModel", "Error adding trade", t)
+            }
         }
     }
 
     fun deleteTrade(trade: TradeEntity) {
         viewModelScope.launch {
-            repository.deleteTrade(trade)
+            try {
+                repository.deleteTrade(trade)
+            } catch (t: Throwable) {
+                android.util.Log.e("TradeViewModel", "Error deleting trade", t)
+            }
         }
     }
 
@@ -86,14 +102,18 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
         followedSetup: Boolean
     ) {
         viewModelScope.launch {
-            val analysis = DailyAnalysisEntity(
-                dateStr = dateStr,
-                whatWentRight = whatWentRight,
-                whatWentWrong = whatWentWrong,
-                marketCondition = marketCondition,
-                followedSetup = followedSetup
-            )
-            repository.insertDailyAnalysis(analysis)
+            try {
+                val analysis = DailyAnalysisEntity(
+                    dateStr = dateStr,
+                    whatWentRight = whatWentRight,
+                    whatWentWrong = whatWentWrong,
+                    marketCondition = marketCondition,
+                    followedSetup = followedSetup
+                )
+                repository.insertDailyAnalysis(analysis)
+            } catch (t: Throwable) {
+                android.util.Log.e("TradeViewModel", "Error adding daily analysis", t)
+            }
         }
     }
 

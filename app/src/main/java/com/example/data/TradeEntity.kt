@@ -41,6 +41,6 @@ data class TradeEntity(
         val rewardDiff = Math.abs(exitPrice - entryPrice)
         if (riskDiff == 0.0) return "1:1"
         val ratio = rewardDiff / riskDiff
-        return "1:${String.format("%.1f", ratio)}"
+        return "1:${String.format(java.util.Locale.US, "%.1f", ratio)}"
     }
 }

@@ -417,7 +417,7 @@ fun LedgerStatsOverview(trades: List<TradeEntity>) {
                             color = TerminalTextSecondary
                         )
                         Text(
-                            text = "${if (netPL >= 0) "+" else ""}₹${String.format("%,.1f", netPL)}",
+                            text = "${if (netPL >= 0) "+" else ""}₹${String.format(java.util.Locale.US, "%,.1f", netPL)}",
                             style = MaterialTheme.typography.titleLarge,
                             color = if (netPL >= 0) NeonGreenProfit else NeonRedLoss,
                             fontWeight = FontWeight.Black
@@ -461,7 +461,7 @@ fun LedgerStatsOverview(trades: List<TradeEntity>) {
             )
             MetricMiniCard(
                 title = "AVG RISK REWARD",
-                value = "1:${String.format("%.1f", avgRR)}",
+                value = "1:${String.format(java.util.Locale.US, "%.1f", avgRR)}",
                 accentColor = NeonBluePrimary,
                 modifier = Modifier.weight(1f)
             )
@@ -721,7 +721,7 @@ fun TradeLogCard(trade: TradeEntity, onDelete: () -> Unit) {
                 // Profit or Loss readout
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "${if (pl >= 0) "+" else ""}₹${String.format("%,.1f", pl)}",
+                        text = "${if (pl >= 0) "+" else ""}₹${String.format(java.util.Locale.US, "%,.1f", pl)}",
                         style = MaterialTheme.typography.titleMedium,
                         color = if (pl >= 0) NeonGreenProfit else NeonRedLoss,
                         fontWeight = FontWeight.Black
@@ -974,7 +974,7 @@ fun TradeEntryScreen(
     
     val calculatedRRString = if (riskVal > 0) {
         val ratio = rewardVal / riskVal
-        "1 : ${String.format("%.1f", ratio)}"
+        "1 : ${String.format(java.util.Locale.US, "%.1f", ratio)}"
     } else "1 : 1.0"
 
     LazyColumn(
@@ -1020,7 +1020,7 @@ fun TradeEntryScreen(
                         Column {
                             Text("PROFIT / LOSS FEED", style = MaterialTheme.typography.labelSmall, color = TerminalTextSecondary)
                             Text(
-                                text = if (qty > 0) "${if (netResultPL >= 0) "+" else ""}₹${String.format("%,.1f", netResultPL)}" else "₹0.00",
+                                text = if (qty > 0) "${if (netResultPL >= 0) "+" else ""}₹${String.format(java.util.Locale.US, "%,.1f", netResultPL)}" else "₹0.00",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = if (netResultPL >= 0) NeonGreenProfit else NeonRedLoss,
                                 fontWeight = FontWeight.Bold
@@ -1045,11 +1045,11 @@ fun TradeEntryScreen(
                     ) {
                         Column {
                             Text("RISK AMOUNT", style = MaterialTheme.typography.labelSmall, color = TerminalTextSecondary)
-                            Text("₹${String.format("%,.1f", riskAmount)}", style = MaterialTheme.typography.bodyMedium, color = NeonRedLoss)
+                            Text("₹${String.format(java.util.Locale.US, "%,.1f", riskAmount)}", style = MaterialTheme.typography.bodyMedium, color = NeonRedLoss)
                         }
                         Column(horizontalAlignment = Alignment.End) {
                             Text("REWARD AMOUNT", style = MaterialTheme.typography.labelSmall, color = TerminalTextSecondary)
-                            Text("₹${String.format("%,.1f", rewardAmount)}", style = MaterialTheme.typography.bodyMedium, color = NeonGreenProfit)
+                            Text("₹${String.format(java.util.Locale.US, "%,.1f", rewardAmount)}", style = MaterialTheme.typography.bodyMedium, color = NeonGreenProfit)
                         }
                     }
                 }
@@ -1303,8 +1303,9 @@ fun TradeEntryScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Text("BEFORE ENTRY CHART", style = MaterialTheme.typography.labelSmall, color = TerminalTextSecondary, fontSize = 9.sp)
                         Spacer(modifier = Modifier.height(4.dp))
-                        if (beforeChartUri != null) {
-                            CardChartImage(uriStr = beforeChartUri!!)
+                        val currentBeforeChartUri = beforeChartUri
+                        if (currentBeforeChartUri != null) {
+                            CardChartImage(uriStr = currentBeforeChartUri)
                             TextButton(onClick = { beforeChartUri = null }) {
                                 Text("CLEAR IMAGE", color = NeonRedLoss, fontSize = 10.sp)
                             }
@@ -1334,8 +1335,9 @@ fun TradeEntryScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Text("AFTER EXIT CHART", style = MaterialTheme.typography.labelSmall, color = TerminalTextSecondary, fontSize = 9.sp)
                         Spacer(modifier = Modifier.height(4.dp))
-                        if (afterChartUri != null) {
-                            CardChartImage(uriStr = afterChartUri!!)
+                        val currentAfterChartUri = afterChartUri
+                        if (currentAfterChartUri != null) {
+                            CardChartImage(uriStr = currentAfterChartUri)
                             TextButton(onClick = { afterChartUri = null }) {
                                 Text("CLEAR IMAGE", color = NeonRedLoss, fontSize = 10.sp)
                             }
@@ -1484,7 +1486,7 @@ fun MistakesScreen(trades: List<TradeEntity>) {
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    text = "₹${String.format("%,.1f", mistakeLosses[mostExpensiveMistake] ?: 0.0)} net",
+                                    text = "₹${String.format(java.util.Locale.US, "%,.1f", mistakeLosses[mostExpensiveMistake] ?: 0.0)} net",
                                     fontSize = 11.sp,
                                     color = TerminalTextSecondary
                                 )
@@ -1561,7 +1563,7 @@ fun MistakesScreen(trades: List<TradeEntity>) {
                         Column(horizontalAlignment = Alignment.End) {
                             Text("CUMULATIVE PL DAMAGE", style = MaterialTheme.typography.labelSmall, color = TerminalTextSecondary, fontSize = 8.sp)
                             Text(
-                                text = "${if (totalPL >= 0) "+" else ""}₹${String.format("%,.1f", totalPL)}",
+                                text = "${if (totalPL >= 0) "+" else ""}₹${String.format(java.util.Locale.US, "%,.1f", totalPL)}",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = if (totalPL >= 0) NeonGreenProfit else NeonRedLoss,
                                 fontWeight = FontWeight.Black
