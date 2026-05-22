@@ -1,0 +1,6 @@
+{
+  "name": "Trade Diary",
+  "description": "Professional dark-themed Nifty trading journal with risk-reward calculator, mistake tracking, daily analysis, and AI terminal analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

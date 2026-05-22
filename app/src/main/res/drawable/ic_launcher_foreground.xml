@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Glowing trading terminal chart emblem of two high-weight candlesticks (1 Red, 1 Green) plus terminal trace lines -->
+    <!-- Grid trace lines -->
+    <path
+        android:strokeColor="#1F2937"
+        android:strokeWidth="1.5"
+        android:pathData="M24,72 L84,72 M24,36 L84,36 M24,54 L84,54" />
+
+    <!-- Red Bearish Candle (Left side) -->
+    <!-- Wick -->
+    <path
+        android:strokeColor="#EF4444"
+        android:strokeWidth="2.5"
+        android:pathData="M42,28 L42,80" />
+    <!-- Real Body -->
+    <path
+        android:fillColor="#EF4444"
+        android:pathData="M35,42h14v24h-14z" />
+
+    <!-- Green Bullish Candle (Right side) -->
+    <!-- Wick -->
+    <path
+        android:strokeColor="#10B981"
+        android:strokeWidth="2.5"
+        android:pathData="M66,20 L66,72" />
+    <!-- Real Body -->
+    <path
+        android:fillColor="#10B981"
+        android:pathData="M59,28h14v30h-14z" />
+
+    <!-- Terminal trend vector caret overlay -->
+    <path
+        android:strokeColor="#00F0FF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M28,68 L42,54 L56,60 L78,28" />
+
+    <!-- Trend line glow point -->
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M74,28a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+
+</vector>
