@@ -1,5 +1,6 @@
 plugins {
   alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.google.devtools.ksp)
   alias(libs.plugins.roborazzi)
@@ -9,6 +10,11 @@ plugins {
 android {
   namespace = "com.example"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
+
+  val releaseKeystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
+  val hasReleaseSigning = file(releaseKeystorePath).exists() &&
+    !System.getenv("STORE_PASSWORD").isNullOrBlank() &&
+    !System.getenv("KEY_PASSWORD").isNullOrBlank()
 
   defaultConfig {
     applicationId = "com.aistudio.tradediary.trpxkq"
@@ -22,17 +28,10 @@ android {
 
   signingConfigs {
     create("release") {
-      val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
-      storeFile = file(keystorePath)
-      storePassword = System.getenv("STORE_PASSWORD")
+      storeFile = file(releaseKeystorePath)
+      storePassword = System.getenv("STORE_PASSWORD") ?: ""
       keyAlias = "upload"
-      keyPassword = System.getenv("KEY_PASSWORD")
-    }
-    create("debugConfig") {
-      storeFile = file("${rootDir}/debug.keystore")
-      storePassword = "android"
-      keyAlias = "androiddebugkey"
-      keyPassword = "android"
+      keyPassword = System.getenv("KEY_PASSWORD") ?: ""
     }
   }
 
@@ -41,10 +40,7 @@ android {
       isCrunchPngs = false
       isMinifyEnabled = false
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-      signingConfig = signingConfigs.getByName("release")
-    }
-    debug {
-      signingConfig = signingConfigs.getByName("debugConfig")
+      signingConfig = if (hasReleaseSigning) signingConfigs.getByName("release") else null
     }
   }
   compileOptions {
@@ -56,6 +52,12 @@ android {
     buildConfig = true
   }
   testOptions { unitTests { isIncludeAndroidResources = true } }
+}
+
+kotlin {
+  compilerOptions {
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+  }
 }
 
 // Configure the Secrets Gradle Plugin to use .env and .env.example files

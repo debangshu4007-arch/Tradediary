@@ -1,21 +1,94 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Trade Diary
 
-# Run and deploy your AI Studio app
+Android trade journal for recording trades, reviewing mistakes, tracking daily discipline, and running Gemini-based coaching over saved trade data.
 
-This contains everything you need to run your app locally.
+## Requirements
 
-View your app in AI Studio: https://ai.studio/apps/d65436b5-d074-4514-9f06-0fa5f930c462
+- Android Studio
+- JDK from Android Studio, or any compatible JDK configured as `JAVA_HOME`
+- Android SDK with API 36 installed
+- Optional: `GEMINI_API_KEY` in `.env` for AI Coach
 
-## Run Locally
+## Local Setup
 
-**Prerequisites:**  [Android Studio](https://developer.android.com/studio)
+1. Open this folder in Android Studio.
+2. Create `.env` in the project root:
 
+```properties
+GEMINI_API_KEY=your_gemini_api_key
+```
 
-1. Open Android Studio
-2. Select **Open** and choose the directory containing this project
-3. Allow Android Studio to fix any incompatibilities as it imports the project.
-4. Create a file named `.env` in the project directory and set `GEMINI_API_KEY` in that file to your Gemini API key (see `.env.example` for an example)
-5. Remove this line from the app's `build.gradle.kts` file: `signingConfig = signingConfigs.getByName("debugConfig")`
-6. Run the app on an emulator or physical device
+3. Build a debug APK:
+
+```powershell
+.\gradlew.bat assembleDebug
+```
+
+4. Install it on a connected phone or emulator:
+
+```powershell
+adb install -r app\build\outputs\apk\debug\app-debug.apk
+```
+
+The latest debug APK is also copied to `.build-outputs\app-debug.apk`.
+
+## Verification
+
+Run the host-side tests:
+
+```powershell
+.\gradlew.bat testDebugUnitTest
+```
+
+Build debug and release APKs:
+
+```powershell
+.\gradlew.bat assembleDebug assembleRelease
+```
+
+## Release APK
+
+The default release build is unsigned unless release signing credentials are supplied.
+
+Create a release/upload keystore:
+
+```powershell
+keytool -genkeypair -v -keystore my-upload-key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+Build a signed release APK:
+
+```powershell
+$env:KEYSTORE_PATH="C:\absolute\path\to\my-upload-key.jks"
+$env:STORE_PASSWORD="your_store_password"
+$env:KEY_PASSWORD="your_key_password"
+.\gradlew.bat assembleRelease
+```
+
+The signed APK will be at:
+
+```text
+app\build\outputs\apk\release\app-release.apk
+```
+
+Verify the APK signature:
+
+```powershell
+apksigner verify --verbose app\build\outputs\apk\release\app-release.apk
+```
+
+## Play Store Shipping
+
+For Google Play, build an Android App Bundle after setting the same release signing environment variables:
+
+```powershell
+.\gradlew.bat bundleRelease
+```
+
+Upload this file in Play Console:
+
+```text
+app\build\outputs\bundle\release\app-release.aab
+```
+
+Before production release, update `versionCode` and `versionName` in `app\build.gradle.kts`, test the signed build on a real device, and keep the upload keystore/passwords backed up securely.
