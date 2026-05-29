@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "702742210127",
+    "project_id": "tradediaryapp-8969f",
+    "storage_bucket": "tradediaryapp-8969f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702742210127:android:146c4fb4ebc8a41d69ec3a",
+        "android_client_info": {
+          "package_name": "com.aistudio.tradediary.trpxkq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZFD2LYzTADOconGx5MwwpiTrHFZq3Zac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

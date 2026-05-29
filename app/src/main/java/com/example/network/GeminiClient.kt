@@ -85,7 +85,7 @@ object GeminiService {
             contents = listOf(
                 Content(
                     parts = listOf(
-                        Part(text = "You are a professional Nifty index trading coach. Based on this journal data, provide 3 punchy, high-value visual takeaways in a terminal bullet format, identifying: 1) Most profitable day or setup, 2) Dangerous patterns or psychological mistakes impacting Win Rate, and 3) A sharp trading advice to fix these immediately. Keep it very professional, styled as a modern trade scanner output.\n\n$prompt")
+                        Part(text = "You are a professional trading coach for F&O, stocks, and investing journals. Read the structured journal data and find practical loopholes. Return a concise terminal-style report in English with light Hinglish-friendly wording. Include: 1) best trading day/session/setup, 2) risk-reward issues, 3) money management or position size warnings, 4) partial-exit quality and whether winners are cut early, 5) fear/FOMO/revenge behavior impact, 6) stock vs F&O and CE vs PE/Buy vs Sell behavior clues, and 7) exactly 3 direct action points. Be specific and do not give generic motivation.\n\n$prompt")
                     )
                 )
             ),

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 private val DarkTerminalColorScheme = darkColorScheme(
     primary = NeonBluePrimary,
     secondary = NeonBlueSecondary,
-    tertiary = TerminalAccentGlow,
+    tertiary = AccentColor,
     background = TerminalBackground,
     surface = TerminalCardBackground,
     onPrimary = TerminalBackground,
